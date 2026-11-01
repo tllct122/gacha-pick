@@ -11,6 +11,7 @@ A retro capsule machine, styled like a Showa-era Japanese café, that decides fo
 <p>
   <img src="docs/machine.jpg" width="260" alt="The machine">
   <img src="docs/answer.jpg" width="260" alt="An opened capsule">
+  <img src="docs/menu.jpg" width="260" alt="The menu of ready-made machines">
 </p>
 
 ## Features
@@ -19,7 +20,8 @@ A retro capsule machine, styled like a Showa-era Japanese café, that decides fo
 - ✏️ **Your own machines**: make as many as you like, like "What's for lunch?" or "Who pays?". Type one option per line, in any language
 - 🙅 **No repeats**: turn this on and nothing comes out twice until the machine is empty. Good for taking turns
 - 🔗 **Share a machine**: send a link and your friends can turn the same machine on their phone, or add it to their own
-- 🌏 **English / 中文**: switch with the button in the corner
+- 📋 **A menu of ready-made machines**: what to eat, late-night snacks, bubble tea, sugar and ice level, coffee, weekend plans, who pays, what to study first, and more. Tap one to put it on the counter
+- 🌏 **English / 中文 / 廣東話**: switch with the button in the corner
 - 📲 **Works like an app**: add it to your home screen, and it works offline. No account, no ads, and everything stays on your phone
 
 ## Use it
@@ -27,7 +29,8 @@ A retro capsule machine, styled like a Showa-era Japanese café, that decides fo
 | To | Do this |
 |---|---|
 | Get an answer | Tap **Turn the knob** (or the knob itself), then tap the capsule |
-| Switch language | **EN / 中** in the top-right corner |
+| Use a ready-made machine | Pick one from the **Menu** |
+| Switch language | **EN / 中 / 粵** in the top-right corner |
 | Make your own machine | **+ New machine**, give it a name, and type what's inside, one per line |
 | Send to a group chat | **Share this machine**, or **Send to friends** after opening a capsule |
 | Put it on your home screen | iPhone: Share → **Add to Home Screen**. Android: ⋮ → **Install app** |

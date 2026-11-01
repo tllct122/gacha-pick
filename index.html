@@ -111,6 +111,16 @@ button { cursor: pointer; }
 .foot { text-align: center; font-size: 12.5px; color: var(--ink-soft); margin-top: 22px; line-height: 1.8; }
 .foot a { color: var(--ink); }
 
+/* the menu: ready-made machines, listed like a café menu with prices */
+.side { display: grid; gap: 30px; }
+.menu-hint { margin: -4px 0 10px; text-align: center; font-size: 13.5px; color: var(--ink-soft); }
+.menu-cat { font-family: var(--deco); font-weight: 700; font-size: 16px; margin: 16px 0 4px; color: var(--cherry); }
+.menu-item { display: flex; align-items: baseline; gap: 8px; width: 100%; border: 0; background: transparent; padding: 7px 4px; border-radius: 8px; text-align: left; font-size: 15px; }
+.menu-item:hover { background: rgba(217,178,91,.16); }
+.menu-item .dots { flex: 1; border-bottom: 2px dotted rgba(59,35,24,.35); transform: translateY(-4px); min-width: 16px; }
+.menu-item .price { font-family: var(--deco); font-weight: 700; font-size: 14px; white-space: nowrap; }
+.menu-item.have .price { color: var(--melon, #367F50); }
+
 /* ---------------- opening a capsule: the order slip ---------------- */
 .reveal { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; background: rgba(46,26,16,.6); padding: 20px; }
 .reveal.show { display: grid; }
@@ -153,6 +163,7 @@ button { cursor: pointer; }
 <div class="lang" role="group" aria-label="Language">
   <button data-lang="en" aria-pressed="true">EN</button>
   <button data-lang="zh" aria-pressed="false">中</button>
+  <button data-lang="yue" aria-pressed="false">粵</button>
 </div>
 
 <main class="app">
@@ -238,6 +249,11 @@ button { cursor: pointer; }
       </div>
       <div class="history" id="history"></div>
     </div>
+    <div class="panel menu">
+      <h2 data-t="menu"></h2>
+      <p class="menu-hint" data-t="menuHint"></p>
+      <div id="menu"></div>
+    </div>
     <p class="foot">
       <button class="btn small ghost" id="soundBtn"></button><br>
       <span data-t="free"></span> · <a href="https://github.com/tllct122/gacha-pick">GitHub</a> · <a href="https://buymeacoffee.com/sirene122">☕ Buy me a coffee</a>
@@ -283,11 +299,8 @@ button { cursor: pointer; }
       bannerAdd: 'Add to my machines', bannerNo: 'Not now', banner: (n, c) => `A friend sent you “${n}” with ${c} capsules.`,
       copied: 'Copied — paste it in your chat', added: (n) => `Added “${n}”`, badLink: "That link doesn't contain a machine",
       confirmDelete: (n) => `Delete “${n}”?`, shareText: (n) => `Turn my “${n}” machine:`, sendText: (n, p) => `${n} → ${p} (picked by Gacha Pick)`,
-      starters: [
-        { name: "What's for lunch?", items: ['Ramen', 'Cha chaan teng', 'Sushi', 'Hot pot', 'Thai', 'Dim sum', 'Korean BBQ', "McDonald's", 'Curry rice', 'Cart noodles'] },
-        { name: 'Who washes the dishes?', items: ['Me', 'You', 'Rock paper scissors', 'Nobody — paper plates'] },
-        { name: 'Weekend plan', items: ['Hike', 'Movie', 'Café hopping', 'Museum', 'Beach', 'Stay home and sleep', 'Karaoke', 'Board game café'] },
-      ],
+      menu: 'Menu', menuHint: 'Ready-made machines. Tap one to put it on the counter.', price: (n) => `${n} capsules`, onCounter: 'on the counter',
+      cats: { eat: 'Eat', drink: 'Drink', play: 'Go out', decide: 'Decide', study: 'Study' },
     },
     zh: {
       app: '扭蛋決定機', turn: '扭一扭', open: '打開扭蛋', share: '分享這部扭蛋機',
@@ -301,32 +314,95 @@ button { cursor: pointer; }
       free: '免費・開源', knob: '扭動旋鈕，扭一粒扭蛋', capsule: '打開你的扭蛋',
       bannerAdd: '加到我的扭蛋機', bannerNo: '不用了', banner: (n, c) => `朋友傳了「${n}」給你，裡面有 ${c} 粒扭蛋。`,
       copied: '已複製，貼到聊天室吧', added: (n) => `已加入「${n}」`, badLink: '這條連結裡沒有扭蛋機',
-      confirmDelete: (n) => `刪除「${n}」？`, shareText: (n) => `來扭我的「${n}」扭蛋機：`, sendText: (n, p) => `${n} → ${p}（扭蛋決定機幫我揀的）`,
-      starters: [
-        { name: '今晚食咩？', items: ['拉麵', '茶餐廳', '壽司', '打邊爐', '泰國菜', '飲茶', '韓燒', '麥當勞', '咖喱飯', '車仔麵'] },
-        { name: '邊個洗碗？', items: ['我', '你', '包剪揼', '用即棄碗碟'] },
-        { name: '週末去邊？', items: ['行山', '睇戲', '咖啡店', '博物館', '去海灘', '留喺屋企瞓覺', '唱K', '桌遊店'] },
-      ],
+      confirmDelete: (n) => `刪除「${n}」？`, shareText: (n) => `來扭我的「${n}」扭蛋機：`, sendText: (n, p) => `${n} → ${p}（扭蛋決定機幫我選的）`,
+      menu: '餐牌', menuHint: '現成的扭蛋機，點一下就放上枱。', price: (n) => `${n} 粒`, onCounter: '已在枱上',
+      cats: { eat: '吃', drink: '喝', play: '玩', decide: '決定', study: '溫習' },
+    },
+    yue: {
+      app: '扭蛋決定機', turn: '扭一扭', open: '開蛋！', share: '分享呢部扭蛋機',
+      machines: '我啲扭蛋機', nameLabel: '招牌寫咩', inside: '入面有咩', insideHint: '（一行一個）',
+      noRepeat: '全部扭晒先會再出返', refill: '補貨', delete: '刪咗呢部機',
+      newMachine: '+ 開新機', newName: '新扭蛋機', untitled: '未改名',
+      empty: '部機係空嘅，入幾樣嘢先啦，一行一個。', allOut: '扭晒喇！補貨就可以再扭過。',
+      left: (n, t) => `仲有 ${n} / ${t} 粒`, count: (n) => `入面有 ${n} 粒扭蛋`,
+      ready: '跌咗粒出嚟喇，㩒一下開蛋', last: '頭先扭到：', soundOn: '聲效：開', soundOff: '聲效：熄',
+      pick: '今日之選', again: '再扭過', send: 'Send 畀朋友', close: '收埋', coin: '免費', stamp: '就咁話',
+      free: '免費・開源', knob: '扭個掣，扭粒扭蛋出嚟', capsule: '開你粒扭蛋',
+      bannerAdd: '加落我度', bannerNo: '唔使喇', banner: (n, c) => `朋友 send 咗「${n}」畀你，入面有 ${c} 粒。`,
+      copied: 'Copy 咗，貼落 group 度啦', added: (n) => `加咗「${n}」`, badLink: '呢條 link 冇扭蛋機喎',
+      confirmDelete: (n) => `真係刪咗「${n}」？`, shareText: (n) => `嚟扭我部「${n}」：`, sendText: (n, p) => `${n} → ${p}（扭蛋決定機幫我揀嘅）`,
+      menu: '餐牌', menuHint: '現成嘅扭蛋機，㩒一下就擺上枱。', price: (n) => `${n} 粒`, onCounter: '擺咗上枱',
+      cats: { eat: '食', drink: '飲', play: '玩', decide: '決定', study: '溫書' },
     },
   };
+
+  /* ---------- the menu: ready-made machines (English / 中文 / 廣東話) ---------- */
+  const L = (en, zh, yue) => ({ en, zh, yue: yue || zh });
+  const LIBRARY = [
+    { id: 'eat-today', cat: 'eat', name: L('What should I eat today?', '今天吃甚麼？', '今日 jap 咩好？'),
+      items: L(['Cha chaan teng', 'Ramen', 'Sushi', 'Cart noodles', 'Wonton noodles', 'Roast meat rice', 'Rice noodles', 'Burger', 'Thai', 'Korean BBQ', 'Pho', 'Curry rice', 'Pasta', 'Malatang', 'Hot pot'],
+        ['茶餐廳', '拉麵', '壽司', '車仔麵', '雲吞麵', '燒味飯', '米線', '漢堡包', '泰國菜', '韓燒', '越南粉', '咖喱飯', '意粉', '麻辣燙', '打邊爐']) },
+    { id: 'late-night', cat: 'eat', name: L('Late-night snack', '宵夜吃甚麼？', '宵夜食咩？'),
+      items: L(['Sweet soup', 'Fish balls & siu mai', 'Claypot rice', 'Congee', 'Instant noodles', 'Fried chicken', 'Skewers', 'Egg waffle', 'Convenience store run'],
+        ['糖水', '魚蛋燒賣', '煲仔飯', '粥', '即食麵', '炸雞', '串燒', '雞蛋仔', '去便利店'], ['糖水', '魚蛋燒賣', '煲仔飯', '粥', '公仔麵', '炸雞', '串燒', '雞蛋仔', '去 7 仔']) },
+    { id: 'dessert', cat: 'eat', name: L('Which dessert?', '吃甚麼甜品？', '食咩甜品？'),
+      items: L(['Mango pomelo sago', 'Tofu pudding', 'Mango pancake', 'Waffle', 'Ice cream', 'Egg tart', 'French toast', 'Red bean ice', 'Snowflake ice'],
+        ['楊枝甘露', '豆腐花', '芒果班戟', '窩夫', '雪糕', '蛋撻', '西多士', '紅豆冰', '雪花冰']) },
+    { id: 'bubble-tea', cat: 'drink', name: L('Which bubble tea?', '喝甚麼手搖飲品？', '飲咩手搖？'),
+      items: L(['Bubble milk tea', 'Brown sugar boba milk', 'Cheese foam green tea', 'Lemon green tea', 'Mango green tea', 'Passion fruit green tea', 'Oolong milk tea', 'Yakult green tea', 'Pudding milk tea', 'Winter melon lemon', 'Peach oolong', 'Grapefruit green tea'],
+        ['珍珠奶茶', '黑糖珍珠鮮奶', '芝士奶蓋綠茶', '檸檬綠茶', '芒果綠茶', '百香果綠茶', '烏龍奶茶', '多多綠茶', '布丁奶茶', '冬瓜檸檬', '蜜桃烏龍', '西柚綠茶']) },
+    { id: 'sugar', cat: 'drink', name: L('How sweet?', '甜度？', '幾甜好？'),
+      items: L(['Normal sugar', 'Less sugar', 'Half sugar', 'A little sugar', 'No sugar'], ['正常甜', '少甜', '半甜', '微甜', '無糖'], ['正常甜', '少甜', '半糖', '微甜', '走甜']) },
+    { id: 'ice', cat: 'drink', name: L('How much ice?', '冰量？', '幾多冰？'),
+      items: L(['Normal ice', 'Less ice', 'No ice', 'Hot'], ['正常冰', '少冰', '去冰', '熱'], ['正常冰', '少冰', '走冰', '熱飲']) },
+    { id: 'coffee', cat: 'drink', name: L('Coffee order', '點甚麼咖啡？', '飲咩咖啡？'),
+      items: L(['Latte', 'Americano', 'Cappuccino', 'Flat white', 'Mocha', 'Matcha latte', 'Iced lemon tea', 'Yuenyeung'],
+        ['拿鐵', '美式', '卡布奇諾', '澳白', '摩卡', '抹茶拿鐵', '凍檸茶', '鴛鴦'], ['Latte', '美式', 'Cappuccino', '澳白', 'Mocha', '抹茶 latte', '凍檸茶', '鴛鴦']) },
+    { id: 'weekend', cat: 'play', name: L('Weekend plan', '週末做甚麼？', '週末去邊？'),
+      items: L(['Hike', 'Movie', 'Café hopping', 'Museum', 'Beach', 'Sleep in', 'Karaoke', 'Board game café', 'Shopping', 'Photo booth'],
+        ['行山', '看電影', '去咖啡店', '博物館', '海灘', '在家睡覺', '唱K', '桌遊店', '逛街', '拍貼紙相'], ['行山', '睇戲', '去 cafe', '博物館', '去海灘', '喺屋企瞓覺', '唱K', 'Board game', '行街', '影大頭貼']) },
+    { id: 'who-pays', cat: 'decide', name: L('Who pays?', '誰請客？', '邊個請？'),
+      items: L(['Me', 'You', 'Them', 'Split the bill', 'Rock paper scissors'], ['我', '你', '他', '夾錢', '猜拳決定'], ['我', '你', '佢', 'AA', '包剪揼']) },
+    { id: 'dishes', cat: 'decide', name: L('Who washes the dishes?', '誰洗碗？', '邊個洗碗？'),
+      items: L(['Me', 'You', 'Rock paper scissors', 'Nobody — paper plates'], ['我', '你', '猜拳決定', '用即棄碗碟'], ['我', '你', '包剪揼', '用即棄碗碟']) },
+    { id: 'yes-no', cat: 'decide', name: L('Yes or no?', '做還是不做？', '做定唔做？'),
+      items: L(['Yes!', 'No', 'Sleep on it', 'Ask a friend'], ['做！', '不要做', '再想想', '問朋友'], ['做！', '唔好做', '再諗下', '問下朋友']) },
+    { id: 'study-first', cat: 'study', name: L('What to study first?', '先溫習甚麼？', '溫咩先？'),
+      items: L(['Assignment', 'Lecture notes', 'Past paper', 'Vocabulary', 'Report', '15-minute break'],
+        ['做功課', '溫筆記', '做歷屆試題', '背生字', '寫報告', '休息十五分鐘'], ['做 assignment', '溫 notes', '做 past paper', '背生字', '寫 report', '抖 15 分鐘']) },
+    { id: 'break', cat: 'study', name: L('Study break', '小休做甚麼？', '小休做咩？'),
+      items: L(['Stretch', 'Drink water', 'Short walk', 'Snack', '10-minute nap', 'One song'], ['伸展', '喝水', '走一圈', '吃零食', '小睡十分鐘', '聽一首歌'], ['拉下筋', '飲啖水', '行個圈', '食零食', '瞓 10 分鐘', '聽首歌']) },
+  ];
+  const CATS = ['eat', 'drink', 'play', 'decide', 'study'];
+  const STARTERS = ['eat-today', 'bubble-tea', 'who-pays'];
 
   const uid = () => Math.random().toString(36).slice(2, 9);
   const rand = (n) => { const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; };
 
   /* ---------- saving (per browser) ---------- */
   const KEY = 'gacha-pick-v1';
-  const guessLang = () => (/^zh/i.test(navigator.language || '') ? 'zh' : 'en');
+  const guessLang = () => { const l = navigator.language || ''; return /^(zh-(HK|MO)|yue)/i.test(l) ? 'yue' : /^zh/i.test(l) ? 'zh' : 'en'; };
   const blank = (name, items, color) => ({ id: uid(), name, items, color, noRepeat: false, out: [], history: [] });
-  function starters(lang) { return T[lang].starters.map((s, i) => blank(s.name, s.items.slice(), COLORS[i])); }
+  /** A machine from the menu; it follows the language until you edit it. */
+  function fromMenu(id, lang, color) {
+    const e = LIBRARY.find((x) => x.id === id);
+    return { ...blank(e.name[lang], e.items[lang].slice(), color), libId: id, edited: false };
+  }
+  function relocalise() {
+    for (const l of data.lists) {
+      const e = l.libId && !l.edited && LIBRARY.find((x) => x.id === l.libId);
+      if (e) { l.name = e.name[data.lang]; l.items = e.items[data.lang].slice(); l.out = []; }
+    }
+  }
+  function starters(lang) { return STARTERS.map((id, i) => fromMenu(id, lang, COLORS[i])); }
   function load() {
     try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.lists) && d.lists.length) return { lang: guessLang(), sound: true, ...d }; } catch (e) {}
     const lang = guessLang(), lists = starters(lang);
-    return { lists, current: lists[0].id, sound: true, lang, untouched: true };
+    return { lists, current: lists[0].id, sound: true, lang };
   }
   let data = load();
   const t = () => T[data.lang] || T.en;
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {} };
-  const touched = () => { if (data.untouched) { data.untouched = false; } };
   const cur = () => data.lists.find((l) => l.id === data.current) || data.lists[0];
   const itemsOf = (l) => l.items.map((s) => s.trim()).filter(Boolean);
   function pool(l) {
@@ -417,7 +493,16 @@ button { cursor: pointer; }
     else status(w.count(total));
   }
   function status(s) { $('#status').textContent = s; }
-  function renderAll() { renderWords(); renderLists(); renderEditor(); renderDome(); }
+  function renderMenu() {
+    const w = t();
+    $('#menu').innerHTML = CATS.map((c) => `<div class="menu-cat">${w.cats[c]}</div>` +
+      LIBRARY.filter((e) => e.cat === c).map((e) => {
+        const have = data.lists.some((l) => l.libId === e.id);
+        return `<button class="menu-item ${have ? 'have' : ''}" data-lib="${e.id}"><span>${esc(e.name[data.lang])}</span><span class="dots"></span>` +
+          `<span class="price">${have ? w.onCounter : w.price(e.items[data.lang].length)}</span></button>`;
+      }).join('')).join('');
+  }
+  function renderAll() { renderWords(); renderLists(); renderEditor(); renderDome(); renderMenu(); }
 
   /* ---------- turning the knob ---------- */
   let busy = false, picked = null, pickedColor = COLORS[0], orderNo = 1 + rand(400);
@@ -463,7 +548,6 @@ button { cursor: pointer; }
     if (!picked) return;
     const w = t(), l = cur();
     $('#chuteCap').classList.remove('ready');
-    touched();
     l.history.unshift(picked); l.history = l.history.slice(0, 20); save();
     const r = $('#reveal');
     r.querySelector('.half.top').style.background = pickedColor;
@@ -522,14 +606,21 @@ button { cursor: pointer; }
   document.querySelector('.lang').addEventListener('click', (e) => {
     const b = e.target.closest('[data-lang]'); if (!b || b.dataset.lang === data.lang) return;
     data.lang = b.dataset.lang;
-    // the starter machines follow the language until you change them
-    if (data.untouched) { data.lists = starters(data.lang); data.current = data.lists[0].id; }
+    relocalise();   // menu machines you haven't edited follow the language
     save(); renderAll(); showBanner();
   });
 
+  $('#menu').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-lib]'); if (!b || busy) return;
+    let l = data.lists.find((x) => x.libId === b.dataset.lib);
+    if (!l) { l = fromMenu(b.dataset.lib, data.lang, COLORS[data.lists.length % COLORS.length]); data.lists.push(l); toast(t().added(l.name)); }
+    data.current = l.id; save();
+    $('#chuteCap').classList.remove('ready');
+    renderAll();
+    $('#machine').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  });
   $('#lists').addEventListener('click', (e) => {
     if (e.target.closest('#addList')) {
-      touched();
       const l = blank(t().newName, [], COLORS[data.lists.length % COLORS.length]);
       data.lists.push(l); data.current = l.id; save(); renderAll();
       $('#name').select(); return;
@@ -539,29 +630,26 @@ button { cursor: pointer; }
     $('#chuteCap').classList.remove('ready');
     renderAll();
   });
-  $('#name').oninput = (e) => { touched(); cur().name = e.target.value; save(); renderLists(); renderMeta(); };
+  $('#name').oninput = (e) => { cur().name = e.target.value; cur().edited = true; save(); renderLists(); renderMeta(); };
   let domeTimer;
   $('#items').oninput = (e) => {
-    touched();
     const l = cur();
-    l.items = e.target.value.split('\n');
+    l.items = e.target.value.split('\n'); l.edited = true;
     const still = new Set(itemsOf(l)); l.out = l.out.filter((x) => still.has(x));
     save(); renderMeta(); clearTimeout(domeTimer); domeTimer = setTimeout(renderDome, 250);
   };
   $('#items').onblur = () => { const l = cur(); l.items = itemsOf(l); save(); };
-  $('#noRepeat').onchange = (e) => { touched(); const l = cur(); l.noRepeat = e.target.checked; l.out = []; save(); renderMeta(); renderDome(); };
+  $('#noRepeat').onchange = (e) => { const l = cur(); l.noRepeat = e.target.checked; l.out = []; save(); renderMeta(); renderDome(); };
   $('#refill').onclick = () => { cur().out = []; save(); renderMeta(); renderDome(); thunk(); };
   $('#deleteList').onclick = () => {
     const l = cur();
     if (!confirm(t().confirmDelete(l.name || t().untitled))) return;
-    touched();
     data.lists = data.lists.filter((x) => x.id !== l.id);
     if (!data.lists.length) data.lists.push(blank(t().newName, [], COLORS[0]));
     data.current = data.lists[0].id; save(); renderAll();
   };
   $('#soundBtn').onclick = () => { data.sound = !data.sound; save(); renderWords(); };
   $('#bannerAdd').onclick = () => {
-    touched();
     const l = blank(incoming.name, incoming.items, COLORS[data.lists.length % COLORS.length]);
     data.lists.push(l); data.current = l.id; save(); renderAll();
     $('#banner').classList.remove('show'); toast(t().added(l.name)); incoming = null;
