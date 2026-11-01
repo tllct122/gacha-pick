@@ -18,7 +18,7 @@
   --wall: #F2E4C6; --stripe: #E6CFA0;
   --wood: #4A2C1D; --wood-dark: #2E1A10; --gold: #D9B25B;
   --ink: #3B2318; --ink-soft: #7A5A45; --paper: #FFF8EA;
-  --melon: #4FAE6F; --melon-dark: #367F50; --cherry: #C42E3A; --glass: #E3F2EC;
+  --cherry: #C42E3A; --glass: #E3F2EC;
   --deco: "Kaisei Decol", "Hiragino Mincho ProN", "Songti TC", "PMingLiU", serif;
   --ui: "Varela Round", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Noto Sans HK", system-ui, sans-serif;
 }
@@ -44,7 +44,7 @@ button { cursor: pointer; }
   .app { grid-template-columns: minmax(0, 1fr) 330px; align-items: start; padding-top: 64px; }
 }
 
-/* ---------------- the machine (a cream soda on the counter) ---------------- */
+/* ---------------- the machine (red, retro, on the counter) ---------------- */
 .machine-wrap { width: min(360px, 88vw); }
 .machine { position: relative; width: 100%; aspect-ratio: 300 / 486; user-select: none; }
 .machine svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
@@ -178,26 +178,27 @@ button { cursor: pointer; }
         <!-- dome -->
         <circle cx="150" cy="150" r="114" fill="#3B2318"/>
         <circle cx="150" cy="150" r="110" fill="#E3F2EC"/>
-        <!-- body: melon soda -->
-        <rect x="26" y="236" width="248" height="216" rx="26" fill="#367F50"/>
-        <rect x="26" y="230" width="248" height="214" rx="26" fill="#4FAE6F"/>
-        <!-- vanilla ice cream rim -->
-        <path d="M26 256 V250 Q26 230 52 230 H248 Q274 230 274 250 V256
-                 q-12 14 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 16 -24 0 Z" fill="#FFF8EA"/>
-        <!-- soda bubbles -->
-        <circle cx="52" cy="300" r="4" fill="#7FCB95"/><circle cx="64" cy="330" r="2.6" fill="#7FCB95"/><circle cx="48" cy="370" r="3.4" fill="#7FCB95"/>
-        <circle cx="250" cy="390" r="3" fill="#7FCB95"/><circle cx="236" cy="414" r="2.2" fill="#7FCB95"/>
+        <!-- body: red retro machine -->
+        <rect x="26" y="236" width="248" height="216" rx="26" fill="#8E1F2A"/>
+        <rect x="26" y="230" width="248" height="214" rx="26" fill="#C42E3A"/>
+        <!-- cream band with gold pinstripes and rivets -->
+        <rect x="26" y="230" width="248" height="26" rx="13" fill="#FFF8EA"/>
+        <rect x="26" y="248" width="248" height="8" fill="#FFF8EA"/>
+        <rect x="26" y="258" width="248" height="2.5" fill="#D9B25B"/>
+        <rect x="44" y="436" width="212" height="2.5" rx="1.2" fill="#D9B25B" opacity=".9"/>
+        <circle cx="44" cy="243" r="3" fill="#D9B25B"/><circle cx="256" cy="243" r="3" fill="#D9B25B"/>
+        <!-- side shine -->
+        <rect x="38" y="272" width="8" height="150" rx="4" fill="#E25B66" opacity=".55"/>
         <!-- coin plate -->
-        <rect x="206" y="270" width="46" height="60" rx="8" fill="#FFF8EA" stroke="#3B2318" stroke-width="2"/>
-        <rect x="226" y="279" width="6" height="24" rx="3" fill="#3B2318"/>
-        <text id="coinText" x="229" y="320" text-anchor="middle" font-family="Kaisei Decol, serif" font-weight="700" font-size="11" fill="#3B2318">free</text>
-        <!-- knob with a cherry on top -->
+        <rect x="206" y="272" width="46" height="60" rx="8" fill="#FFF8EA" stroke="#3B2318" stroke-width="2"/>
+        <rect x="226" y="281" width="6" height="24" rx="3" fill="#3B2318"/>
+        <text id="coinText" x="229" y="322" text-anchor="middle" font-family="Kaisei Decol, serif" font-weight="700" font-size="11" fill="#3B2318">free</text>
+        <!-- knob -->
         <g id="knob">
           <circle cx="150" cy="327" r="46" fill="#FFF8EA" stroke="#3B2318" stroke-width="4"/>
+          <circle cx="150" cy="327" r="38" fill="none" stroke="#D9B25B" stroke-width="1.5"/>
           <rect x="107" y="317" width="86" height="20" rx="10" fill="#3B2318"/>
-          <path d="M150 327 q4 -16 14 -20" stroke="#367F50" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <circle cx="150" cy="329" r="10" fill="#C42E3A" stroke="#3B2318" stroke-width="2.5"/>
-          <circle cx="147" cy="326" r="2.6" fill="#fff" opacity=".8"/>
+          <circle cx="150" cy="327" r="9" fill="#D9B25B" stroke="#3B2318" stroke-width="2.5"/>
         </g>
         <!-- chute -->
         <rect x="104" y="386" width="92" height="50" rx="12" fill="#3B2318"/>
