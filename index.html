@@ -65,6 +65,13 @@ button { cursor: pointer; }
 @keyframes jiggle { to { transform: translate(calc(-50% + 3px), calc(-50% - 5px)) rotate(calc(var(--r) + 14deg)); } }
 
 #knob { transform-box: fill-box; transform-origin: center; }
+#machine3d { position: absolute; inset: 0; width: 100%; height: 100%; display: none; touch-action: manipulation; }
+.machine.is3d #machine3d { display: block;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%); }
+.machine.is3d .sign { top: 0; height: 8%; border-radius: 8px; background: linear-gradient(#563424, #3f2618);
+  box-shadow: inset 0 0 0 1.5px #D9B25B, 0 0 0 3px #2E1A10, 0 6px 14px rgba(46,26,16,.25); z-index: 2; }
+.machine.is3d svg, .machine.is3d .dome-clip, .machine.is3d .knob-hit, .machine.is3d .chute-cap { display: none !important; }
 .knob-hit { position: absolute; left: 36.7%; top: 66.7%; width: 26.7%; aspect-ratio: 1; border-radius: 50%; border: 0; background: transparent; }
 
 .chute-cap { position: absolute; width: 12%; aspect-ratio: 1; left: 44%; top: 84.4%; border: 0; padding: 0; border-radius: 50%;
@@ -220,6 +227,7 @@ button { cursor: pointer; }
         <path d="M66 172 A88 88 0 0 1 104 112" stroke="#fff" stroke-width="10" stroke-linecap="round" fill="none" opacity=".8"/>
       </svg>
       <div class="sign"><span id="signText">Gacha Pick</span></div>
+      <canvas id="machine3d" aria-hidden="true"></canvas>
       <div class="dome-clip"><div class="dome" id="dome"></div></div>
       <button class="knob-hit" id="knobBtn"></button>
       <button class="chute-cap" id="chuteCap"></button>
@@ -279,6 +287,14 @@ button { cursor: pointer; }
 </div>
 <div class="toast" id="toast" role="status"></div>
 
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+  "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+} }
+</script>
+<script type="module" src="machine3d.js"></script>
 <script>
 (() => {
   const $ = (s) => document.querySelector(s);
@@ -430,8 +446,16 @@ button { cursor: pointer; }
   const buzz = (ms) => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
 
   /* ---------- the capsules in the dome ---------- */
+  let M = null, domeKey = '';
+  const someColor = () => COLORS[rand(COLORS.length)];
   function renderDome() {
     const items = pool(cur()), dome = $('#dome');
+    if (M) {
+      // a different machine → pour new capsules in; same machine → just add or take out the difference
+      if (domeKey !== cur().id) { domeKey = cur().id; M.clearTray(); M.setCapsules(items.slice(0, 26).map(someColor)); }
+      else M.setCount(items.length, someColor);
+      return;
+    }
     const shown = Math.min(items.length, 30);
     const size = shown > 18 ? 15 : shown > 10 ? 18 : 21;     // % of dome width
     // pile them up from the floor of the visible glass, row by row
@@ -518,6 +542,15 @@ button { cursor: pointer; }
     pickedColor = COLORS[rand(COLORS.length)];
 
     clicks(); buzz([12, 60, 12, 60, 12]);
+    if (M) {
+      setTimeout(() => { thunk(); buzz(30); }, reduce ? 0 : 1500);
+      await M.turn(pickedColor, true);
+      if (l.noRepeat) { l.out.push(picked); save(); }
+      $('#chuteCap').classList.add('ready');
+      renderWords(); renderMeta();
+      busy = false;
+      return;
+    }
     $('#dome').classList.add('shake');
     await $('#knob').animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
       { duration: reduce ? 1 : 900, easing: 'cubic-bezier(.45,.05,.4,1)' }).finished;
@@ -548,6 +581,7 @@ button { cursor: pointer; }
     if (!picked) return;
     const w = t(), l = cur();
     $('#chuteCap').classList.remove('ready');
+    if (M) { M.clearTray(); if (!l.noRepeat) setTimeout(() => M.addCapsule(someColor()), 700); }
     l.history.unshift(picked); l.history = l.history.slice(0, 20); save();
     const r = $('#reveal');
     r.querySelector('.half.top').style.background = pickedColor;
@@ -656,7 +690,18 @@ button { cursor: pointer; }
   };
   $('#bannerNo').onclick = () => { $('#banner').classList.remove('show'); incoming = null; };
 
+  function use3D() {
+    if (M || !window.Machine3D) return;
+    M = window.Machine3D;
+    $('#machine').classList.add('is3d');
+    M.onHandle(turn);
+    M.onCapsule(() => { if ($('#chuteCap').classList.contains('ready')) openCapsule(); });
+    domeKey = ''; renderDome();
+  }
+  window.addEventListener('machine3d-ready', use3D);
+
   renderAll();
+  use3D();
   readHash();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
