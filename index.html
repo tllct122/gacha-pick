@@ -4,138 +4,143 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gacha Pick</title>
-<meta name="description" content="Can't decide? Turn the knob. A capsule-toy machine that picks for you — what to eat, where to go, who washes the dishes.">
-<meta name="theme-color" content="#D6EFE4">
+<meta name="description" content="Can't decide? Turn the knob. A retro capsule machine that picks for you — what to eat, where to go, who washes the dishes.">
+<meta name="theme-color" content="#F2E4C6">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Varela+Round&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
 <style>
 :root {
-  --red: #E5412D; --red-dark: #B92E1F; --red-light: #F26A57;
-  --glass: #BFE6F5; --tile: #D6EFE4; --grout: #F4FBF7;
-  --ink: #23305E; --ink-soft: #5B6489; --paper: #FFFDF6;
-  --pink: #FF8FB1; --yellow: #FFD23F; --blue: #5BB8F0; --green: #7ED492; --orange: #FF9F43;
+  /* a Showa-era kissaten: cream walls, dark wood, cream soda, cherry */
+  --wall: #F2E4C6; --stripe: #E6CFA0;
+  --wood: #4A2C1D; --wood-dark: #2E1A10; --gold: #D9B25B;
+  --ink: #3B2318; --ink-soft: #7A5A45; --paper: #FFF8EA;
+  --melon: #4FAE6F; --melon-dark: #367F50; --cherry: #C42E3A; --glass: #E3F2EC;
+  --deco: "Kaisei Decol", "Hiragino Mincho ProN", "Songti TC", "PMingLiU", serif;
   --ui: "Varela Round", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Noto Sans HK", system-ui, sans-serif;
-  --sign: "Dela Gothic One", "Varela Round", "PingFang HK", sans-serif;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
   min-height: 100dvh; color: var(--ink); font-family: var(--ui); -webkit-tap-highlight-color: transparent;
-  background-color: var(--tile);
-  background-image:
-    linear-gradient(var(--grout) 2px, transparent 2px),
-    linear-gradient(90deg, var(--grout) 2px, transparent 2px);
-  background-size: 34px 34px; background-position: -1px -1px;
+  background-color: var(--wall);
+  background-image: repeating-linear-gradient(90deg, transparent 0 30px, var(--stripe) 30px 33px, transparent 33px 37px, var(--stripe) 37px 38px, transparent 38px 68px);
 }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 8px; }
+:focus-visible { outline: 3px solid var(--cherry); outline-offset: 3px; border-radius: 8px; }
 
-.app { max-width: 980px; margin: 0 auto; padding: max(18px, env(safe-area-inset-top)) 16px 40px;
-  display: grid; grid-template-columns: 1fr; gap: 22px; justify-items: center; }
+.lang { position: fixed; top: max(12px, env(safe-area-inset-top)); right: 12px; z-index: 15; display: flex; padding: 3px; border-radius: 999px;
+  background: var(--wood); box-shadow: 0 0 0 2px var(--gold), 0 3px 0 var(--wood-dark); }
+.lang button { border: 0; background: transparent; color: var(--paper); font-size: 13.5px; padding: 6px 11px; border-radius: 999px; font-family: var(--deco); font-weight: 700; }
+.lang button[aria-pressed="true"] { background: var(--gold); color: var(--wood-dark); }
+
+.app { max-width: 980px; margin: 0 auto; padding: max(56px, calc(env(safe-area-inset-top) + 44px)) 16px 40px;
+  display: grid; grid-template-columns: 1fr; gap: 26px; justify-items: center; }
 @media (min-width: 860px) {
-  .app { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; padding-top: 48px; }
+  .app { grid-template-columns: minmax(0, 1fr) 330px; align-items: start; padding-top: 64px; }
 }
 
-/* ---------------- the machine ---------------- */
+/* ---------------- the machine (a cream soda on the counter) ---------------- */
 .machine-wrap { width: min(360px, 88vw); }
-.machine { position: relative; width: 100%; aspect-ratio: 300 / 470; user-select: none; }
+.machine { position: relative; width: 100%; aspect-ratio: 300 / 486; user-select: none; }
 .machine svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.sign { position: absolute; left: 14.7%; right: 14.7%; top: 2.6%; height: 7.2%; display: grid; place-items: center;
-  font-family: var(--sign); font-weight: 700; color: #fff; font-size: clamp(14px, 4.6vw, 19px); line-height: 1; letter-spacing: .01em;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 8px; text-shadow: 0 2px 0 var(--red-dark); }
+.sign { position: absolute; left: 14%; right: 14%; top: 1.2%; height: 8.4%; display: grid; place-items: center;
+  font-family: var(--deco); font-weight: 700; color: var(--gold); font-size: clamp(15px, 4.8vw, 20px); line-height: 1; letter-spacing: .04em;
+  white-space: nowrap; overflow: hidden; padding: 0 12px; text-shadow: 0 1px 0 var(--wood-dark); }
 .sign span { overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-.dome-clip { position: absolute; left: 13.3%; width: 73.4%; top: 7.66%; height: 41.7%; overflow: hidden; }
+.dome-clip { position: absolute; left: 13.3%; width: 73.4%; top: 7.4%; height: 40%; overflow: hidden; }
 .dome { position: absolute; left: 0; top: 0; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; }
 .cap { position: absolute; border-radius: 50%; transform: translate(-50%, -50%) rotate(var(--r, 0deg));
-  background: linear-gradient(to bottom, var(--c) 0 50%, rgba(255,255,255,.88) 50% 100%);
-  box-shadow: inset 0 0 0 2px rgba(35,48,94,.18), inset -4px -6px 0 rgba(0,0,0,.06); }
-.cap::after { content: ''; position: absolute; left: 18%; top: 14%; width: 26%; height: 18%; border-radius: 50%; background: rgba(255,255,255,.7); }
+  background: linear-gradient(to bottom, var(--c) 0 50%, rgba(255,250,240,.9) 50% 100%);
+  box-shadow: inset 0 0 0 2px rgba(59,35,24,.22), inset -4px -6px 0 rgba(0,0,0,.06); }
+.cap::after { content: ''; position: absolute; left: 18%; top: 14%; width: 26%; height: 18%; border-radius: 50%; background: rgba(255,255,255,.65); }
 .dome.shake .cap { animation: jiggle .14s ease-in-out infinite alternate; }
 .dome.shake .cap:nth-child(2n) { animation-duration: .17s; }
 .dome.shake .cap:nth-child(3n) { animation-duration: .12s; }
 @keyframes jiggle { to { transform: translate(calc(-50% + 3px), calc(-50% - 5px)) rotate(calc(var(--r) + 14deg)); } }
 
 #knob { transform-box: fill-box; transform-origin: center; }
-.knob-hit { position: absolute; left: 33%; top: 59%; width: 34%; aspect-ratio: 1; border-radius: 50%; border: 0; background: transparent; }
+.knob-hit { position: absolute; left: 33%; top: 56.8%; width: 34%; aspect-ratio: 1; border-radius: 50%; border: 0; background: transparent; }
 
-.chute-cap { position: absolute; width: 15%; aspect-ratio: 1; left: 42.5%; top: 85.4%; border: 0; padding: 0; border-radius: 50%;
-  background: linear-gradient(to bottom, var(--c) 0 50%, rgba(255,255,255,.95) 50% 100%);
-  box-shadow: inset 0 0 0 2px rgba(35,48,94,.2), 0 3px 0 rgba(0,0,0,.18); display: none; }
+.chute-cap { position: absolute; width: 15%; aspect-ratio: 1; left: 42.5%; top: 79.9%; border: 0; padding: 0; border-radius: 50%;
+  background: linear-gradient(to bottom, var(--c) 0 50%, rgba(255,250,240,.95) 50% 100%);
+  box-shadow: inset 0 0 0 2px rgba(59,35,24,.25), 0 3px 0 rgba(0,0,0,.2); display: none; }
 .chute-cap.ready { display: block; animation: bob 1.1s ease-in-out infinite; }
 @keyframes bob { 50% { transform: translateY(-4px); } }
 .falling { position: absolute; border-radius: 50%; pointer-events: none; z-index: 3;
-  background: linear-gradient(to bottom, var(--c) 0 50%, rgba(255,255,255,.95) 50% 100%); box-shadow: inset 0 0 0 2px rgba(35,48,94,.2); }
+  background: linear-gradient(to bottom, var(--c) 0 50%, rgba(255,250,240,.95) 50% 100%); box-shadow: inset 0 0 0 2px rgba(59,35,24,.25); }
 
-.under { display: flex; justify-content: center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-.btn { border: 0; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 15px; background: var(--paper); color: var(--ink);
+.under { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.btn { border: 0; border-radius: 999px; padding: 12px 20px; font-family: var(--deco); font-weight: 700; font-size: 15.5px; background: var(--paper); color: var(--ink);
   box-shadow: 0 0 0 2px var(--ink), 0 4px 0 var(--ink); transition: transform .06s, box-shadow .06s; }
 .btn:active { transform: translateY(3px); box-shadow: 0 0 0 2px var(--ink), 0 1px 0 var(--ink); }
-.btn.primary { background: var(--red); color: #fff; }
+.btn.primary { background: var(--cherry); color: var(--paper); }
 .btn.small { padding: 8px 14px; font-size: 14px; }
-.btn.ghost { background: transparent; box-shadow: none; text-decoration: underline; text-underline-offset: 3px; padding: 8px 10px; }
-.status { text-align: center; margin: 14px auto 0; min-height: 1.4em; font-size: 14.5px; color: var(--ink-soft); max-width: 34ch; }
-.status b { color: var(--ink); }
+.btn.ghost { background: transparent; box-shadow: none; text-decoration: underline; text-underline-offset: 3px; padding: 8px 10px; font-family: var(--ui); font-weight: 400; }
+.status { text-align: center; margin: 12px auto 0; min-height: 1.4em; font-size: 14.5px; color: var(--ink-soft); max-width: 34ch; }
 
-/* ---------------- side: lists ---------------- */
+/* ---------------- side: a café menu card ---------------- */
 .side { width: min(420px, 100%); }
-.panel { background: var(--paper); border-radius: 22px; padding: 18px; box-shadow: 0 0 0 2px var(--ink), 0 6px 0 var(--ink); }
-.panel h2 { margin: 0 0 12px; font-size: 17px; }
+.panel { background: var(--paper); border-radius: 6px; padding: 22px 20px 18px; position: relative;
+  box-shadow: 0 0 0 2px var(--wood), 0 0 0 6px var(--paper), 0 0 0 8px var(--wood), 0 12px 24px rgba(74,44,29,.18); }
+.panel h2 { margin: 0 0 14px; font-family: var(--deco); font-weight: 700; font-size: 21px; text-align: center; }
+.panel h2::after { content: ''; display: block; width: 60px; height: 2px; margin: 8px auto 0; background: var(--gold); }
 .lists { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { border: 0; border-radius: 999px; padding: 8px 13px; font-size: 14px; background: #fff; box-shadow: inset 0 0 0 2px var(--ink);
   display: inline-flex; align-items: center; gap: 7px; max-width: 100%; }
-.chip i { width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1.5px rgba(35,48,94,.35); flex: none; }
+.chip i { width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1.5px rgba(59,35,24,.35); flex: none; }
 .chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.chip.on { background: var(--ink); color: #fff; }
-.chip.add { background: transparent; box-shadow: inset 0 0 0 2px var(--ink); border: 0; }
+.chip.on { background: var(--wood); color: var(--paper); }
+.chip.add { background: transparent; }
 .opts { margin-top: 18px; }
 .opts label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
 .opts .hint { font-weight: 400; color: var(--ink-soft); }
-.opts input[type=text], .opts textarea { width: 100%; border: 0; border-radius: 14px; padding: 11px 13px; background: #fff;
+.opts input[type=text], .opts textarea { width: 100%; border: 0; border-radius: 10px; padding: 11px 13px; background: #fff;
   box-shadow: inset 0 0 0 2px var(--ink); font-size: 16px; }
 .opts textarea { min-height: 190px; resize: vertical; line-height: 1.55; }
 .opts .row { display: flex; gap: 8px; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; }
-.toggle { display: flex; align-items: center; gap: 10px; font-size: 14.5px; margin-top: 14px; cursor: pointer; }
-.toggle input { width: 20px; height: 20px; accent-color: var(--red); }
-.history { margin-top: 16px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; }
-.history b { color: var(--ink); font-weight: 700; }
-.foot { text-align: center; font-size: 12.5px; color: var(--ink-soft); margin-top: 18px; line-height: 1.8; }
+.opts .toggle { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 400; margin-top: 14px; cursor: pointer; }
+.toggle input { width: 20px; height: 20px; accent-color: var(--cherry); flex: none; }
+.history { margin-top: 14px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; }
+.history b { color: var(--ink); }
+.foot { text-align: center; font-size: 12.5px; color: var(--ink-soft); margin-top: 22px; line-height: 1.8; }
 .foot a { color: var(--ink); }
 
-/* ---------------- opening a capsule ---------------- */
-.reveal { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; background: rgba(35,48,94,.55); padding: 20px; }
+/* ---------------- opening a capsule: the order slip ---------------- */
+.reveal { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; background: rgba(46,26,16,.6); padding: 20px; }
 .reveal.show { display: grid; }
-.stage { position: relative; width: min(320px, 82vw); aspect-ratio: 1; display: grid; place-items: center; }
+.stage { position: relative; width: min(320px, 84vw); aspect-ratio: 1; display: grid; place-items: center; }
 .half { position: absolute; left: 10%; width: 80%; height: 40%; }
-.half.top { top: 10%; border-radius: 999px 999px 0 0; background: var(--c); box-shadow: inset 0 0 0 4px rgba(35,48,94,.25); }
-.half.top::after { content: ''; position: absolute; left: 16%; top: 22%; width: 22%; height: 26%; border-radius: 50%; background: rgba(255,255,255,.6); }
-.half.bottom { top: 50%; border-radius: 0 0 999px 999px; background: rgba(255,255,255,.92); box-shadow: inset 0 0 0 4px rgba(35,48,94,.25); }
-.slip { position: relative; z-index: 2; background: var(--paper); color: var(--ink); border-radius: 6px; padding: 22px 22px 18px; min-width: 70%; max-width: 92vw;
-  text-align: center; box-shadow: 0 0 0 2px var(--ink), 0 10px 30px rgba(0,0,0,.25); opacity: 0; transform: scale(.4) rotate(-6deg);
-  background-image: repeating-linear-gradient(transparent 0 27px, #F0E6CF 27px 28px); }
-.slip .label { font-size: 13px; color: var(--ink-soft); }
-.slip .answer { font-size: clamp(28px, 9vw, 44px); font-weight: 700; line-height: 1.15; margin: 6px 0 14px; word-break: break-word; }
-.slip .acts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.half.top { top: 10%; border-radius: 999px 999px 0 0; background: var(--c); box-shadow: inset 0 0 0 4px rgba(59,35,24,.25); }
+.half.top::after { content: ''; position: absolute; left: 16%; top: 22%; width: 22%; height: 26%; border-radius: 50%; background: rgba(255,255,255,.55); }
+.half.bottom { top: 50%; border-radius: 0 0 999px 999px; background: rgba(255,250,240,.92); box-shadow: inset 0 0 0 4px rgba(59,35,24,.25); }
+.slip { position: relative; z-index: 2; background: var(--paper); color: var(--ink); padding: 18px 20px 16px; width: min(300px, 86vw);
+  text-align: center; border: 4px double var(--ink); box-shadow: 0 14px 30px rgba(0,0,0,.3); opacity: 0; transform: scale(.4) rotate(-6deg); }
+.slip .no { position: absolute; top: 8px; right: 10px; font-size: 11.5px; color: var(--cherry); font-family: var(--deco); }
+.slip .label { font-family: var(--deco); font-size: 14px; color: var(--ink-soft); padding-bottom: 8px; border-bottom: 1px dashed var(--ink-soft); }
+.slip .answer { font-family: var(--deco); font-weight: 700; font-size: clamp(30px, 9.5vw, 44px); line-height: 1.15; margin: 16px 0 16px; word-break: break-word; }
+.slip .acts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding-top: 12px; border-top: 1px dashed var(--ink-soft); }
+.slip .stamp { position: absolute; left: 12px; bottom: 54px; width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--cherry); color: var(--cherry);
+  display: grid; place-items: center; font-family: var(--deco); font-weight: 700; font-size: 13px; transform: rotate(-14deg); opacity: .8; }
 .reveal.open .half.top { animation: popTop .5s cubic-bezier(.3,1.4,.6,1) forwards; }
 .reveal.open .half.bottom { animation: dropBottom .5s ease-in forwards; }
 .reveal.open .slip { animation: slipIn .45s .18s cubic-bezier(.2,1.5,.5,1) forwards; }
 @keyframes popTop { to { transform: translate(-30%, -95%) rotate(-38deg); opacity: 0; } }
 @keyframes dropBottom { to { transform: translateY(70%) rotate(8deg); opacity: 0; } }
-@keyframes slipIn { to { opacity: 1; transform: none; } }
+@keyframes slipIn { to { opacity: 1; transform: rotate(-1.5deg); } }
 
-.banner { width: min(560px, 100%); grid-column: 1 / -1; background: var(--yellow); border-radius: 18px; padding: 14px 16px;
+.banner { width: min(560px, 100%); grid-column: 1 / -1; background: var(--paper); border-radius: 8px; padding: 14px 16px;
   box-shadow: 0 0 0 2px var(--ink), 0 4px 0 var(--ink); display: none; gap: 10px; align-items: center; flex-wrap: wrap; }
 .banner.show { display: flex; }
 .banner p { margin: 0; flex: 1 1 220px; font-size: 14.5px; }
 .toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(calc(100% + 60px)); visibility: hidden;
-  background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; transition: transform .25s; z-index: 30; }
+  background: var(--wood); color: var(--paper); padding: 11px 18px; border-radius: 999px; font-size: 14px; transition: transform .25s; z-index: 30; }
 .toast.show { transform: translateX(-50%); visibility: visible; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 @media (prefers-reduced-motion: reduce) {
   .dome.shake .cap, .chute-cap.ready { animation: none !important; }
@@ -145,78 +150,94 @@ button { cursor: pointer; }
 </style>
 </head>
 <body>
+<div class="lang" role="group" aria-label="Language">
+  <button data-lang="en" aria-pressed="true">EN</button>
+  <button data-lang="zh" aria-pressed="false">中</button>
+</div>
+
 <main class="app">
-  <div class="banner" id="banner" role="region" aria-label="Shared list">
+  <div class="banner" id="banner" role="region">
     <p id="bannerText"></p>
-    <button class="btn small primary" id="bannerAdd">Add to my lists</button>
-    <button class="btn small ghost" id="bannerNo">Not now</button>
+    <button class="btn small primary" id="bannerAdd" data-t="bannerAdd"></button>
+    <button class="btn small ghost" id="bannerNo" data-t="bannerNo"></button>
   </div>
 
-  <section class="machine-wrap" aria-label="Capsule machine">
+  <section class="machine-wrap">
     <div class="machine" id="machine">
-      <svg viewBox="0 0 300 470" aria-hidden="true">
+      <svg viewBox="0 0 300 486" aria-hidden="true">
+        <!-- counter -->
+        <rect x="-30" y="462" width="360" height="24" rx="4" fill="#4A2C1D"/>
+        <rect x="-30" y="462" width="360" height="5" fill="#6B4430"/>
         <!-- feet -->
-        <rect x="46" y="446" width="44" height="18" rx="6" fill="#23305E"/>
-        <rect x="210" y="446" width="44" height="18" rx="6" fill="#23305E"/>
-        <!-- sign -->
-        <rect x="38" y="6" width="224" height="44" rx="12" fill="#B92E1F"/>
-        <rect x="42" y="8" width="216" height="38" rx="10" fill="#E5412D"/>
+        <rect x="50" y="448" width="40" height="16" rx="5" fill="#2E1A10"/>
+        <rect x="210" y="448" width="40" height="16" rx="5" fill="#2E1A10"/>
+        <!-- wooden sign with gold rim -->
+        <rect x="34" y="4" width="232" height="46" rx="8" fill="#2E1A10"/>
+        <rect x="37" y="6" width="226" height="41" rx="6" fill="#4A2C1D" stroke="#D9B25B" stroke-width="1.6"/>
+        <circle cx="46" cy="26.5" r="2.4" fill="#D9B25B"/><circle cx="254" cy="26.5" r="2.4" fill="#D9B25B"/>
         <!-- dome -->
-        <circle cx="150" cy="150" r="114" fill="#23305E"/>
-        <circle cx="150" cy="150" r="110" fill="#BFE6F5"/>
-        <!-- body -->
-        <rect x="26" y="238" width="248" height="214" rx="26" fill="#B92E1F"/>
-        <rect x="26" y="232" width="248" height="212" rx="26" fill="#E5412D"/>
-        <rect x="40" y="246" width="220" height="10" rx="5" fill="#F26A57" opacity=".7"/>
+        <circle cx="150" cy="150" r="114" fill="#3B2318"/>
+        <circle cx="150" cy="150" r="110" fill="#E3F2EC"/>
+        <!-- body: melon soda -->
+        <rect x="26" y="236" width="248" height="216" rx="26" fill="#367F50"/>
+        <rect x="26" y="230" width="248" height="214" rx="26" fill="#4FAE6F"/>
+        <!-- vanilla ice cream rim -->
+        <path d="M26 256 V250 Q26 230 52 230 H248 Q274 230 274 250 V256
+                 q-12 14 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 18 -26 0 q-12 12 -24 0 q-12 16 -24 0 Z" fill="#FFF8EA"/>
+        <!-- soda bubbles -->
+        <circle cx="52" cy="300" r="4" fill="#7FCB95"/><circle cx="64" cy="330" r="2.6" fill="#7FCB95"/><circle cx="48" cy="370" r="3.4" fill="#7FCB95"/>
+        <circle cx="250" cy="390" r="3" fill="#7FCB95"/><circle cx="236" cy="414" r="2.2" fill="#7FCB95"/>
         <!-- coin plate -->
-        <rect x="206" y="262" width="46" height="62" rx="10" fill="#FFFDF6"/>
-        <rect x="226" y="272" width="6" height="26" rx="3" fill="#23305E"/>
-        <text x="229" y="315" text-anchor="middle" font-family="Varela Round, sans-serif" font-size="11" fill="#23305E">free</text>
-        <!-- knob -->
+        <rect x="206" y="270" width="46" height="60" rx="8" fill="#FFF8EA" stroke="#3B2318" stroke-width="2"/>
+        <rect x="226" y="279" width="6" height="24" rx="3" fill="#3B2318"/>
+        <text id="coinText" x="229" y="320" text-anchor="middle" font-family="Kaisei Decol, serif" font-weight="700" font-size="11" fill="#3B2318">free</text>
+        <!-- knob with a cherry on top -->
         <g id="knob">
-          <circle cx="150" cy="327" r="47" fill="#FFFDF6" stroke="#23305E" stroke-width="4"/>
-          <rect x="106" y="317" width="88" height="20" rx="10" fill="#23305E"/>
-          <circle cx="150" cy="327" r="9" fill="#FFD23F" stroke="#23305E" stroke-width="3"/>
+          <circle cx="150" cy="327" r="46" fill="#FFF8EA" stroke="#3B2318" stroke-width="4"/>
+          <rect x="107" y="317" width="86" height="20" rx="10" fill="#3B2318"/>
+          <path d="M150 327 q4 -16 14 -20" stroke="#367F50" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="150" cy="329" r="10" fill="#C42E3A" stroke="#3B2318" stroke-width="2.5"/>
+          <circle cx="147" cy="326" r="2.6" fill="#fff" opacity=".8"/>
         </g>
         <!-- chute -->
-        <rect x="104" y="390" width="92" height="50" rx="14" fill="#23305E"/>
-        <rect x="112" y="398" width="76" height="34" rx="10" fill="#151D3D"/>
-        <!-- glass shine (above the capsules) -->
-        <path d="M78 92 A92 92 0 0 1 150 52" stroke="#fff" stroke-width="10" stroke-linecap="round" fill="none" opacity=".75" style="mix-blend-mode:screen"/>
+        <rect x="104" y="386" width="92" height="50" rx="12" fill="#3B2318"/>
+        <rect x="112" y="394" width="76" height="34" rx="9" fill="#2E1A10"/>
+        <!-- glass shine -->
+        <path d="M78 92 A92 92 0 0 1 150 52" stroke="#fff" stroke-width="10" stroke-linecap="round" fill="none" opacity=".8"/>
       </svg>
       <div class="sign"><span id="signText">Gacha Pick</span></div>
       <div class="dome-clip"><div class="dome" id="dome"></div></div>
-      <button class="knob-hit" id="knobBtn" aria-label="Turn the knob to get a capsule"></button>
-      <button class="chute-cap" id="chuteCap" aria-label="Open your capsule"></button>
+      <button class="knob-hit" id="knobBtn"></button>
+      <button class="chute-cap" id="chuteCap"></button>
     </div>
     <p class="status" id="status" aria-live="polite"></p>
     <div class="under">
-      <button class="btn primary" id="turnBtn">Turn the knob</button>
-      <button class="btn" id="shareBtn">Share this list</button>
+      <button class="btn primary" id="turnBtn"></button>
+      <button class="btn" id="shareBtn" data-t="share"></button>
     </div>
   </section>
 
   <aside class="side">
     <div class="panel">
-      <h2>Your machines</h2>
+      <h2 data-t="machines"></h2>
       <div class="lists" id="lists"></div>
       <div class="opts">
-        <label for="name">Name on the sign</label>
+        <label for="name" data-t="nameLabel"></label>
         <input type="text" id="name" maxlength="40" autocomplete="off">
-        <label for="items" style="margin-top:14px">What's inside <span class="hint">— one per line</span></label>
+        <label for="items" style="margin-top:14px"><span data-t="inside"></span> <span class="hint" data-t="insideHint"></span></label>
         <textarea id="items" spellcheck="false"></textarea>
-        <label class="toggle"><input type="checkbox" id="noRepeat"> Don't pick the same thing twice until every capsule is out</label>
+        <label class="toggle"><input type="checkbox" id="noRepeat"> <span data-t="noRepeat"></span></label>
         <div class="row">
-          <button class="btn small ghost" id="refill" hidden>Refill the machine</button>
+          <button class="btn small ghost" id="refill" data-t="refill" hidden></button>
           <span></span>
-          <button class="btn small ghost" id="deleteList">Delete this machine</button>
+          <button class="btn small ghost" id="deleteList" data-t="delete"></button>
         </div>
       </div>
       <div class="history" id="history"></div>
     </div>
     <p class="foot">
-      <button class="btn small ghost" id="soundBtn" aria-pressed="true">Sound on</button><br>
-      Free & open source · <a href="https://github.com/tllct122/gacha-pick">GitHub</a> · <a href="https://buymeacoffee.com/sirene122">☕ Buy me a coffee</a>
+      <button class="btn small ghost" id="soundBtn"></button><br>
+      <span data-t="free"></span> · <a href="https://github.com/tllct122/gacha-pick">GitHub</a> · <a href="https://buymeacoffee.com/sirene122">☕ Buy me a coffee</a>
     </p>
   </aside>
 </main>
@@ -226,12 +247,13 @@ button { cursor: pointer; }
     <div class="half top"></div>
     <div class="half bottom"></div>
     <div class="slip">
-      <div class="label" id="slipLabel">The machine says</div>
+      <span class="no" id="slipNo"></span>
+      <div class="label" id="slipLabel"></div>
       <div class="answer" id="answer"></div>
       <div class="acts">
-        <button class="btn small primary" id="againBtn">Turn again</button>
-        <button class="btn small" id="sendBtn">Send to friends</button>
-        <button class="btn small ghost" id="closeBtn">Close</button>
+        <button class="btn small primary" id="againBtn" data-t="again"></button>
+        <button class="btn small" id="sendBtn" data-t="send"></button>
+        <button class="btn small ghost" id="closeBtn" data-t="close"></button>
       </div>
     </div>
   </div>
@@ -241,24 +263,67 @@ button { cursor: pointer; }
 <script>
 (() => {
   const $ = (s) => document.querySelector(s);
-  const COLORS = ['#FF8FB1', '#FFD23F', '#5BB8F0', '#7ED492', '#FF9F43', '#C9A7FF'];
-  const STARTERS = [
-    { name: "What's for lunch?", items: ['Ramen', 'Cha chaan teng', 'Sushi', 'Hot pot', 'Thai', 'Dim sum', 'Korean BBQ', "McDonald's", 'Curry rice', 'Noodles in the canteen'] },
-    { name: 'Who washes the dishes?', items: ['Me', 'You', 'Rock paper scissors', 'Nobody — paper plates'] },
-    { name: 'Weekend plan', items: ['Hike', 'Movie', 'Café hopping', 'Museum', 'Beach', 'Stay home and sleep', 'Karaoke', 'Board game café'] },
-  ];
+  const COLORS = ['#D2453F', '#E3B23C', '#6CC08A', '#8FB8C9', '#E89AA6', '#8B5A3C'];
+
+  /* ---------- words (English / 繁體中文) ---------- */
+  const T = {
+    en: {
+      app: 'Gacha Pick', turn: 'Turn the knob', open: 'Open the capsule', share: 'Share this machine',
+      machines: 'Your machines', nameLabel: 'Name on the sign', inside: "What's inside", insideHint: '— one per line',
+      noRepeat: "Don't pick the same thing twice until every capsule is out", refill: 'Refill the machine', delete: 'Delete this machine',
+      newMachine: '+ New machine', newName: 'New machine', untitled: 'Untitled',
+      empty: 'This machine is empty. Add a few things, one per line.', allOut: 'Every capsule is out. Refill the machine to start again.',
+      left: (n, t) => `${n} of ${t} capsules left`, count: (n) => `${n} capsule${n === 1 ? '' : 's'} inside`,
+      ready: 'Your capsule is ready — tap it to open', last: 'Last picks:', soundOn: 'Sound on', soundOff: 'Sound off',
+      pick: "Today's pick", again: 'Turn again', send: 'Send to friends', close: 'Close', coin: 'free', stamp: 'OK',
+      free: 'Free & open source', knob: 'Turn the knob to get a capsule', capsule: 'Open your capsule',
+      bannerAdd: 'Add to my machines', bannerNo: 'Not now', banner: (n, c) => `A friend sent you “${n}” with ${c} capsules.`,
+      copied: 'Copied — paste it in your chat', added: (n) => `Added “${n}”`, badLink: "That link doesn't contain a machine",
+      confirmDelete: (n) => `Delete “${n}”?`, shareText: (n) => `Turn my “${n}” machine:`, sendText: (n, p) => `${n} → ${p} (picked by Gacha Pick)`,
+      starters: [
+        { name: "What's for lunch?", items: ['Ramen', 'Cha chaan teng', 'Sushi', 'Hot pot', 'Thai', 'Dim sum', 'Korean BBQ', "McDonald's", 'Curry rice', 'Cart noodles'] },
+        { name: 'Who washes the dishes?', items: ['Me', 'You', 'Rock paper scissors', 'Nobody — paper plates'] },
+        { name: 'Weekend plan', items: ['Hike', 'Movie', 'Café hopping', 'Museum', 'Beach', 'Stay home and sleep', 'Karaoke', 'Board game café'] },
+      ],
+    },
+    zh: {
+      app: '扭蛋決定機', turn: '扭一扭', open: '打開扭蛋', share: '分享這部扭蛋機',
+      machines: '我的扭蛋機', nameLabel: '招牌名稱', inside: '扭蛋內容', insideHint: '（每行一個）',
+      noRepeat: '全部扭完之前，不會重複', refill: '重新入貨', delete: '刪除這部扭蛋機',
+      newMachine: '+ 新扭蛋機', newName: '新扭蛋機', untitled: '未命名',
+      empty: '這部扭蛋機是空的，加幾個選項吧，每行一個。', allOut: '扭蛋全部扭完了，重新入貨就可以再扭。',
+      left: (n, t) => `還剩 ${n} / ${t} 粒扭蛋`, count: (n) => `機內有 ${n} 粒扭蛋`,
+      ready: '扭蛋掉出來了，點一下打開', last: '最近扭到：', soundOn: '音效：開', soundOff: '音效：關',
+      pick: '今日之選', again: '再扭一次', send: '傳給朋友', close: '關閉', coin: '免費', stamp: '決定',
+      free: '免費・開源', knob: '扭動旋鈕，扭一粒扭蛋', capsule: '打開你的扭蛋',
+      bannerAdd: '加到我的扭蛋機', bannerNo: '不用了', banner: (n, c) => `朋友傳了「${n}」給你，裡面有 ${c} 粒扭蛋。`,
+      copied: '已複製，貼到聊天室吧', added: (n) => `已加入「${n}」`, badLink: '這條連結裡沒有扭蛋機',
+      confirmDelete: (n) => `刪除「${n}」？`, shareText: (n) => `來扭我的「${n}」扭蛋機：`, sendText: (n, p) => `${n} → ${p}（扭蛋決定機幫我揀的）`,
+      starters: [
+        { name: '今晚食咩？', items: ['拉麵', '茶餐廳', '壽司', '打邊爐', '泰國菜', '飲茶', '韓燒', '麥當勞', '咖喱飯', '車仔麵'] },
+        { name: '邊個洗碗？', items: ['我', '你', '包剪揼', '用即棄碗碟'] },
+        { name: '週末去邊？', items: ['行山', '睇戲', '咖啡店', '博物館', '去海灘', '留喺屋企瞓覺', '唱K', '桌遊店'] },
+      ],
+    },
+  };
+
   const uid = () => Math.random().toString(36).slice(2, 9);
   const rand = (n) => { const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; };
 
   /* ---------- saving (per browser) ---------- */
   const KEY = 'gacha-pick-v1';
+  const guessLang = () => (/^zh/i.test(navigator.language || '') ? 'zh' : 'en');
+  const blank = (name, items, color) => ({ id: uid(), name, items, color, noRepeat: false, out: [], history: [] });
+  function starters(lang) { return T[lang].starters.map((s, i) => blank(s.name, s.items.slice(), COLORS[i])); }
   function load() {
-    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.lists) && d.lists.length) return d; } catch (e) {}
-    const lists = STARTERS.map((s, i) => ({ id: uid(), name: s.name, items: s.items, color: COLORS[i], noRepeat: false, out: [], history: [] }));
-    return { lists, current: lists[0].id, sound: true };
+    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.lists) && d.lists.length) return { lang: guessLang(), sound: true, ...d }; } catch (e) {}
+    const lang = guessLang(), lists = starters(lang);
+    return { lists, current: lists[0].id, sound: true, lang, untouched: true };
   }
   let data = load();
+  const t = () => T[data.lang] || T.en;
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {} };
+  const touched = () => { if (data.untouched) { data.untouched = false; } };
   const cur = () => data.lists.find((l) => l.id === data.current) || data.lists[0];
   const itemsOf = (l) => l.items.map((s) => s.trim()).filter(Boolean);
   function pool(l) {
@@ -274,34 +339,31 @@ button { cursor: pointer; }
     if (!data.sound) return;
     try {
       ac = ac || new (window.AudioContext || window.webkitAudioContext)();
-      const t = ac.currentTime + when, o = ac.createOscillator(), g = ac.createGain();
-      o.type = type; o.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur);
+      const at = ac.currentTime + when, o = ac.createOscillator(), g = ac.createGain();
+      o.type = type; o.frequency.setValueAtTime(freq, at);
+      g.gain.setValueAtTime(vol, at); g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+      o.connect(g).connect(ac.destination); o.start(at); o.stop(at + dur);
     } catch (e) {}
   }
   const clicks = () => { for (let i = 0; i < 8; i++) tone(900 + (i % 2) * 140, 0.03, 'square', 0.035, i * 0.1); };
   const thunk = () => { tone(140, 0.18, 'sine', 0.2); tone(90, 0.22, 'sine', 0.15, 0.05); };
-  const pop = () => { tone(520, 0.08, 'triangle', 0.12); tone(880, 0.12, 'triangle', 0.1, 0.07); tone(1320, 0.18, 'triangle', 0.08, 0.14); };
+  const chime = () => { tone(784, 0.25, 'triangle', 0.1); tone(1047, 0.35, 'triangle', 0.08, 0.12); tone(1319, 0.5, 'triangle', 0.06, 0.24); };
   const buzz = (ms) => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
 
-  /* ---------- drawing the capsules in the dome ---------- */
+  /* ---------- the capsules in the dome ---------- */
   function renderDome() {
-    const l = cur(), dome = $('#dome');
-    const items = pool(l);
-    const n = Math.max(items.length, 0);
-    const shown = Math.min(n, 30);
+    const items = pool(cur()), dome = $('#dome');
+    const shown = Math.min(items.length, 30);
     const size = shown > 18 ? 15 : shown > 10 ? 18 : 21;     // % of dome width
     // pile them up from the floor of the visible glass, row by row
     const FLOOR = 85, R = 50, caps = [];
     const chord = (yy) => Math.sqrt(Math.max(0, R * R - (yy - R) * (yy - R)));
     let y = FLOOR - size / 2, row = 0;
     while (caps.length < shown && y > size / 2 + 4) {
-      const half = chord(y) - size * 0.5;
-      const step = size * 0.9;
+      const half = chord(y) - size * 0.5, step = size * 0.9;
       const cols = Math.max(1, Math.floor((half * 2) / step) + 1);
       const span = (cols - 1) * step, start = R - span / 2 + (row % 2 ? step / 4 : -step / 4) * (cols > 1 ? 1 : 0);
-      const order = [...Array(cols).keys()].sort(() => rand(3) - 1);   // fill the row in a messy order
+      const order = [...Array(cols).keys()].sort(() => rand(3) - 1);
       for (const c of order) {
         if (caps.length >= shown) break;
         caps.push({ x: start + c * step + (rand(5) - 2), y: y + (rand(5) - 2) });
@@ -312,12 +374,26 @@ button { cursor: pointer; }
       `<div class="cap" style="left:${p.x}%;top:${p.y}%;width:${size}%;height:${size}%;--c:${COLORS[(i + rand(6)) % COLORS.length]};--r:${rand(360)}deg"></div>`).join('');
   }
 
-  /* ---------- side panel ---------- */
+  /* ---------- words on the page ---------- */
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  function renderWords() {
+    const w = t();
+    document.documentElement.lang = data.lang === 'zh' ? 'zh-Hant-HK' : 'en';
+    document.title = w.app;
+    document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = w[el.dataset.t]; });
+    document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === data.lang)));
+    $('#coinText').textContent = w.coin;
+    $('#knobBtn').setAttribute('aria-label', w.knob);
+    $('#chuteCap').setAttribute('aria-label', w.capsule);
+    $('#turnBtn').textContent = $('#chuteCap').classList.contains('ready') ? w.open : w.turn;
+    $('#soundBtn').textContent = data.sound ? w.soundOn : w.soundOff;
+    $('#soundBtn').setAttribute('aria-pressed', String(!!data.sound));
+  }
   function renderLists() {
+    const w = t();
     $('#lists').innerHTML = data.lists.map((l) =>
-      `<button class="chip ${l.id === data.current ? 'on' : ''}" data-id="${l.id}" style="--c:${l.color}" aria-pressed="${l.id === data.current}"><i></i><span>${esc(l.name || 'Untitled')}</span></button>`).join('') +
-      `<button class="chip add" id="addList">+ New machine</button>`;
+      `<button class="chip ${l.id === data.current ? 'on' : ''}" data-id="${l.id}" style="--c:${l.color}" aria-pressed="${l.id === data.current}"><i></i><span>${esc(l.name || w.untitled)}</span></button>`).join('') +
+      `<button class="chip add" id="addList">${w.newMachine}</button>`;
   }
   function renderEditor() {
     const l = cur();
@@ -327,22 +403,21 @@ button { cursor: pointer; }
     renderMeta();
   }
   function renderMeta() {
-    const l = cur(), left = pool(l).length, total = itemsOf(l).length;
-    $('#signText').textContent = l.name || 'Gacha Pick';
+    const w = t(), l = cur(), left = pool(l).length, total = itemsOf(l).length;
+    $('#signText').textContent = l.name || w.app;
     $('#refill').hidden = !(l.noRepeat && l.out.length);
-    $('#history').innerHTML = l.history.length ? `Last picks: ${l.history.slice(0, 6).map((h, i) => i ? esc(h) : `<b>${esc(h)}</b>`).join(', ')}` : '';
-    if (!total) status('This machine is empty. Add a few things on the right, one per line.');
-    else if (l.noRepeat && !left) status('Every capsule is out. Refill the machine to start again.');
-    else if (l.noRepeat) status(`${left} of ${total} capsules left`);
-    else status(`${total} capsule${total === 1 ? '' : 's'} inside`);
-    $('#soundBtn').textContent = data.sound ? 'Sound on' : 'Sound off';
-    $('#soundBtn').setAttribute('aria-pressed', String(!!data.sound));
+    $('#history').innerHTML = l.history.length ? `${w.last} ${l.history.slice(0, 6).map((h, i) => i ? esc(h) : `<b>${esc(h)}</b>`).join(data.lang === 'zh' ? '、' : ', ')}` : '';
+    if ($('#chuteCap').classList.contains('ready')) status(w.ready);
+    else if (!total) status(w.empty);
+    else if (l.noRepeat && !left) status(w.allOut);
+    else if (l.noRepeat) status(w.left(left, total));
+    else status(w.count(total));
   }
-  function status(t) { $('#status').textContent = t; }
-  function renderAll() { renderLists(); renderEditor(); renderDome(); }
+  function status(s) { $('#status').textContent = s; }
+  function renderAll() { renderWords(); renderLists(); renderEditor(); renderDome(); }
 
   /* ---------- turning the knob ---------- */
-  let busy = false, picked = null, pickedColor = COLORS[0];
+  let busy = false, picked = null, pickedColor = COLORS[0], orderNo = 1 + rand(400);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   async function turn() {
@@ -354,65 +429,63 @@ button { cursor: pointer; }
     picked = choices[rand(choices.length)];
     pickedColor = COLORS[rand(COLORS.length)];
 
-    // knob turns, capsules rattle
     clicks(); buzz([12, 60, 12, 60, 12]);
     $('#dome').classList.add('shake');
     await $('#knob').animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
       { duration: reduce ? 1 : 900, easing: 'cubic-bezier(.45,.05,.4,1)' }).finished;
     $('#dome').classList.remove('shake');
 
-    // one capsule drops into the chute
     if (l.noRepeat) { l.out.push(picked); save(); renderDome(); }
-    const m = $('#machine'), fall = document.createElement('div');
+    const fall = document.createElement('div');
     fall.className = 'falling'; fall.style.setProperty('--c', pickedColor);
-    Object.assign(fall.style, { width: '15%', aspectRatio: '1', left: '42.5%', top: '38%' });
-    m.appendChild(fall);
+    Object.assign(fall.style, { width: '15%', aspectRatio: '1', left: '42.5%', top: '36%' });
+    $('#machine').appendChild(fall);
+    const H = $('#machine').clientHeight, dy = (0.799 - 0.36) * H;   // from the glass floor to the chute
     await fall.animate([
       { transform: 'translateY(0) rotate(0)', opacity: 1 },
-      { transform: 'translateY(40%) rotate(90deg)', opacity: 0, offset: .25 },
-      { transform: 'translateY(330%) rotate(200deg)', opacity: 0, offset: .7 },
-      { transform: 'translateY(304%) rotate(360deg)', opacity: 1 },
+      { transform: `translateY(${dy * 0.12}px) rotate(90deg)`, opacity: 0, offset: .25 },
+      { transform: `translateY(${dy * 1.08}px) rotate(200deg)`, opacity: 0, offset: .7 },
+      { transform: `translateY(${dy}px) rotate(360deg)`, opacity: 1 },
     ], { duration: reduce ? 1 : 650, easing: 'ease-in' }).finished;
     fall.remove();
     thunk(); buzz(30);
     const cap = $('#chuteCap');
     cap.style.setProperty('--c', pickedColor);
     cap.classList.add('ready');
-    status('Your capsule is ready — tap it to open');
-    $('#turnBtn').textContent = 'Open the capsule';
+    renderWords(); renderMeta();
     busy = false;
   }
 
   function openCapsule() {
     if (!picked) return;
-    const l = cur();
+    const w = t(), l = cur();
     $('#chuteCap').classList.remove('ready');
-    $('#turnBtn').textContent = 'Turn the knob';
+    touched();
     l.history.unshift(picked); l.history = l.history.slice(0, 20); save();
     const r = $('#reveal');
-    r.style.setProperty('--c', pickedColor);
     r.querySelector('.half.top').style.background = pickedColor;
-    $('#slipLabel').textContent = l.name ? `${l.name}` : 'The machine says';
+    $('#slipNo').textContent = `No. ${String(orderNo++).padStart(4, '0')}`;
+    $('#slipLabel').textContent = l.name || w.pick;
     $('#answer').textContent = picked;
     r.classList.remove('open'); r.classList.add('show');
     void r.offsetWidth; r.classList.add('open');
-    pop(); buzz([20, 40, 60]);
+    chime(); buzz([20, 40, 60]);
     setTimeout(() => $('#againBtn').focus(), 300);
-    renderMeta();
+    renderWords(); renderMeta();
   }
   function closeReveal() { $('#reveal').classList.remove('show', 'open'); $('#knobBtn').focus(); }
 
   /* ---------- sharing ---------- */
   const b64 = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   const unb64 = (s) => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0)));
-  function shareLink(l) { return `${location.origin}${location.pathname}#m=${b64(JSON.stringify({ n: l.name, i: itemsOf(l) }))}`; }
+  const shareLink = (l) => `${location.origin}${location.pathname}#m=${b64(JSON.stringify({ n: l.name, i: itemsOf(l) }))}`;
   async function share(text, url) {
     try { if (navigator.share) { await navigator.share({ text, url }); return; } } catch (e) { if (e.name === 'AbortError') return; }
-    try { await navigator.clipboard.writeText(url ? `${text} ${url}` : text); toast('Copied — paste it in your chat'); }
-    catch (e) { prompt('Copy this:', url || text); }
+    try { await navigator.clipboard.writeText(url ? `${text} ${url}` : text); toast(t().copied); }
+    catch (e) { prompt('', url || text); }
   }
   let toastTimer;
-  function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600); }
+  function toast(s) { const el = $('#toast'); el.textContent = s; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600); }
 
   let incoming = null;
   function readHash() {
@@ -421,11 +494,15 @@ button { cursor: pointer; }
     try {
       const d = JSON.parse(unb64(m[1]));
       if (!d || !Array.isArray(d.i)) throw 0;
-      incoming = { name: String(d.n || 'Shared machine').slice(0, 40), items: d.i.map(String).map((s) => s.slice(0, 80)).slice(0, 60) };
-      $('#bannerText').textContent = `A friend sent you “${incoming.name}” with ${incoming.items.length} capsules.`;
-      $('#banner').classList.add('show');
-    } catch (e) { toast("That link doesn't contain a machine"); }
+      incoming = { name: String(d.n || t().newName).slice(0, 40), items: d.i.map(String).map((s) => s.slice(0, 80)).slice(0, 60) };
+      showBanner();
+    } catch (e) { toast(t().badLink); }
     history.replaceState(null, '', location.pathname);
+  }
+  function showBanner() {
+    if (!incoming) return;
+    $('#bannerText').textContent = t().banner(incoming.name, incoming.items.length);
+    $('#banner').classList.add('show');
   }
 
   /* ---------- events ---------- */
@@ -436,45 +513,57 @@ button { cursor: pointer; }
   $('#closeBtn').onclick = closeReveal;
   $('#reveal').addEventListener('click', (e) => { if (e.target.id === 'reveal') closeReveal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('#reveal').classList.contains('show')) closeReveal(); });
-  $('#sendBtn').onclick = () => share(`${cur().name ? cur().name + ' → ' : ''}${picked} 🎯 (picked by Gacha Pick)`, shareLink(cur()));
-  $('#shareBtn').onclick = () => share(`Turn my “${cur().name}” machine:`, shareLink(cur()));
+  $('#sendBtn').onclick = () => share(t().sendText(cur().name || t().pick, picked), shareLink(cur()));
+  $('#shareBtn').onclick = () => share(t().shareText(cur().name || t().app), shareLink(cur()));
+
+  document.querySelector('.lang').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-lang]'); if (!b || b.dataset.lang === data.lang) return;
+    data.lang = b.dataset.lang;
+    // the starter machines follow the language until you change them
+    if (data.untouched) { data.lists = starters(data.lang); data.current = data.lists[0].id; }
+    save(); renderAll(); showBanner();
+  });
 
   $('#lists').addEventListener('click', (e) => {
     if (e.target.closest('#addList')) {
-      const l = { id: uid(), name: 'New machine', items: [], color: COLORS[data.lists.length % COLORS.length], noRepeat: false, out: [], history: [] };
+      touched();
+      const l = blank(t().newName, [], COLORS[data.lists.length % COLORS.length]);
       data.lists.push(l); data.current = l.id; save(); renderAll();
       $('#name').select(); return;
     }
     const b = e.target.closest('[data-id]'); if (!b || busy) return;
     data.current = b.dataset.id; save();
-    $('#chuteCap').classList.remove('ready'); $('#turnBtn').textContent = 'Turn the knob';
+    $('#chuteCap').classList.remove('ready');
     renderAll();
   });
-  $('#name').oninput = (e) => { cur().name = e.target.value; save(); renderLists(); renderMeta(); };
+  $('#name').oninput = (e) => { touched(); cur().name = e.target.value; save(); renderLists(); renderMeta(); };
   let domeTimer;
   $('#items').oninput = (e) => {
+    touched();
     const l = cur();
     l.items = e.target.value.split('\n');
     const still = new Set(itemsOf(l)); l.out = l.out.filter((x) => still.has(x));
     save(); renderMeta(); clearTimeout(domeTimer); domeTimer = setTimeout(renderDome, 250);
   };
   $('#items').onblur = () => { const l = cur(); l.items = itemsOf(l); save(); };
-  $('#noRepeat').onchange = (e) => { const l = cur(); l.noRepeat = e.target.checked; l.out = []; save(); renderMeta(); renderDome(); };
+  $('#noRepeat').onchange = (e) => { touched(); const l = cur(); l.noRepeat = e.target.checked; l.out = []; save(); renderMeta(); renderDome(); };
   $('#refill').onclick = () => { cur().out = []; save(); renderMeta(); renderDome(); thunk(); };
   $('#deleteList').onclick = () => {
     const l = cur();
-    if (!confirm(`Delete “${l.name || 'this machine'}”?`)) return;
+    if (!confirm(t().confirmDelete(l.name || t().untitled))) return;
+    touched();
     data.lists = data.lists.filter((x) => x.id !== l.id);
-    if (!data.lists.length) data.lists.push({ id: uid(), name: 'New machine', items: [], color: COLORS[0], noRepeat: false, out: [], history: [] });
+    if (!data.lists.length) data.lists.push(blank(t().newName, [], COLORS[0]));
     data.current = data.lists[0].id; save(); renderAll();
   };
-  $('#soundBtn').onclick = () => { data.sound = !data.sound; save(); renderMeta(); };
+  $('#soundBtn').onclick = () => { data.sound = !data.sound; save(); renderWords(); };
   $('#bannerAdd').onclick = () => {
-    const l = { id: uid(), name: incoming.name, items: incoming.items, color: COLORS[data.lists.length % COLORS.length], noRepeat: false, out: [], history: [] };
+    touched();
+    const l = blank(incoming.name, incoming.items, COLORS[data.lists.length % COLORS.length]);
     data.lists.push(l); data.current = l.id; save(); renderAll();
-    $('#banner').classList.remove('show'); toast(`Added “${l.name}”`);
+    $('#banner').classList.remove('show'); toast(t().added(l.name)); incoming = null;
   };
-  $('#bannerNo').onclick = () => $('#banner').classList.remove('show');
+  $('#bannerNo').onclick = () => { $('#banner').classList.remove('show'); incoming = null; };
 
   renderAll();
   readHash();
