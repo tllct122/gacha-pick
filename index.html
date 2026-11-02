@@ -356,15 +356,24 @@ button { cursor: pointer; }
   const L = (en, zh, yue) => ({ en, zh, yue: yue || zh });
   const LIBRARY = [
     { id: 'eat-today', cat: 'eat', name: L('What should I eat today?', '今天吃甚麼？', '今日 jap 咩好？'),
-      items: L(['Cha chaan teng', 'Ramen', 'Sushi', 'Cart noodles', 'Wonton noodles', 'Roast meat rice', 'Rice noodles', 'Burger', 'Thai', 'Korean BBQ', 'Pho', 'Curry rice', 'Pasta', 'Malatang', 'Hot pot'],
-        ['茶餐廳', '拉麵', '壽司', '車仔麵', '雲吞麵', '燒味飯', '米線', '漢堡包', '泰國菜', '韓燒', '越南粉', '咖喱飯', '意粉', '麻辣燙', '打邊爐']) },
+      items: L(['Cha chaan teng', 'Rice plate', 'Two-dish rice', 'Roast goose rice', 'Char siu rice', 'Wonton noodles', 'Cart noodles', 'Congee & rice rolls',
+          'Dim sum', 'Claypot rice', 'Rice noodles', 'Malatang', 'Sour fish', 'Chicken hot pot', 'Hot pot',
+          'Ramen', 'Sushi', 'Rice bowl (don)', 'Udon', 'Teppanyaki', 'Korean BBQ', 'Korean fried chicken', 'Bibimbap',
+          'Thai', 'Pho', 'Hainanese chicken rice', 'Taiwanese braised pork rice', 'Indian curry', 'Pasta', 'Pizza', 'Burger', 'Steak', 'Poke bowl', 'Salad'],
+        ['茶餐廳', '碟頭飯', '兩餸飯', '燒鵝飯', '叉燒飯', '雲吞麵', '車仔麵', '粥粉麵',
+          '飲茶點心', '煲仔飯', '米線', '麻辣燙', '酸菜魚', '雞煲', '打邊爐',
+          '拉麵', '壽司', '日式丼飯', '烏冬', '鐵板燒', '韓燒', '韓式炸雞', '石頭鍋拌飯',
+          '泰國菜', '越南粉', '海南雞飯', '台式滷肉飯', '印度咖喱', '意粉', 'Pizza', '漢堡包', '牛扒', 'Poke bowl', '沙律']) },
     { id: 'late-night', cat: 'eat', name: L('Late-night snack', '宵夜吃甚麼？', '宵夜食咩？'),
       items: L(['Sweet soup', 'Fish balls & siu mai', 'Claypot rice', 'Congee', 'Instant noodles', 'Fried chicken', 'Skewers', 'Egg waffle', 'Convenience store run'],
         ['糖水', '魚蛋燒賣', '煲仔飯', '粥', '即食麵', '炸雞', '串燒', '雞蛋仔', '去便利店'], ['糖水', '魚蛋燒賣', '煲仔飯', '粥', '公仔麵', '炸雞', '串燒', '雞蛋仔', '去 7 仔']) },
     { id: 'dessert', cat: 'eat', name: L('Which dessert?', '吃甚麼甜品？', '食咩甜品？'),
       items: L(['Mango pomelo sago', 'Tofu pudding', 'Mango pancake', 'Waffle', 'Ice cream', 'Egg tart', 'French toast', 'Red bean ice', 'Snowflake ice'],
         ['楊枝甘露', '豆腐花', '芒果班戟', '窩夫', '雪糕', '蛋撻', '西多士', '紅豆冰', '雪花冰']) },
-    { id: 'bubble-tea', cat: 'drink', name: L('Which bubble tea?', '喝甚麼手搖飲品？', '飲咩手搖？'),
+    { id: 'bubble-tea', cat: 'drink', name: L('Which bubble tea shop?', '去哪家手搖店？', '飲咩手搖？'),
+      items: L(['HEYTEA', 'CHAGEE', 'CoCo', 'Yi Fang', 'Gong Cha', 'KOI Thé', 'Milksha', 'CHICHA San Chen', 'THE ALLEY', 'Chun Shui Tang', 'machi machi', 'ChaPanda', 'Mixue', 'ONEZO'],
+        ['喜茶', '霸王茶姬', 'CoCo都可', '一芳', '貢茶', 'KOI Thé', '迷客夏', '七盞茶', '鹿角巷', '春水堂', 'machi machi', '茶百道', '蜜雪冰城', 'ONEZO']) },
+    { id: 'tea-order', cat: 'drink', name: L('What to order?', '點甚麼飲品？', '叫咩飲？'),
       items: L(['Bubble milk tea', 'Brown sugar boba milk', 'Cheese foam green tea', 'Lemon green tea', 'Mango green tea', 'Passion fruit green tea', 'Oolong milk tea', 'Yakult green tea', 'Pudding milk tea', 'Winter melon lemon', 'Peach oolong', 'Grapefruit green tea'],
         ['珍珠奶茶', '黑糖珍珠鮮奶', '芝士奶蓋綠茶', '檸檬綠茶', '芒果綠茶', '百香果綠茶', '烏龍奶茶', '多多綠茶', '布丁奶茶', '冬瓜檸檬', '蜜桃烏龍', '西柚綠茶']) },
     { id: 'sugar', cat: 'drink', name: L('How sweet?', '甜度？', '幾甜好？'),
@@ -700,6 +709,7 @@ button { cursor: pointer; }
   }
   window.addEventListener('machine3d-ready', use3D);
 
+  relocalise(); save();   // menu machines you haven't edited pick up the latest menu
   renderAll();
   use3D();
   readHash();
