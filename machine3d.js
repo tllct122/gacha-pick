@@ -9,9 +9,10 @@ import * as CANNON from 'cannon-es';
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------------- sizes (1 unit ≈ 1 cm) ---------------- */
-const GLOBE = { y: 16.4, r: 8 };          // glass globe centre & radius
+const SEAT = { y: 12.1, r: 4.6 };         // the small round opening the globe sits on
+const GLOBE = { r: 8.6, y: 12.1 + Math.sqrt(8.6 ** 2 - 4.6 ** 2) };   // glass globe radius & centre
 const CAP_R = 1.2;                         // capsule radius
-const FLOOR_Y = 11.5;                      // floor inside the globe (the collar hides what's below)
+const FLOOR_Y = 12.3;                      // stops capsules falling through the opening; the round bowl of glass holds them
 const TRAY = { y: 1.55, zBack: 6.6, zFront: 9.6, half: 1.9 };   // outlet tray
 
 /** A painted wood-grain texture for the counter (no image files needed). */
@@ -96,9 +97,9 @@ export function createMachine(canvas) {
   machine.add(lathe([[0, 0], [8.4, 0], [8.7, 0.25], [8.7, 0.9], [8.3, 1.25], [7.9, 1.4],
     [6.0, 9.6], [6.25, 9.8], [6.3, 10.4], [5.9, 10.6], [0, 10.6]], lacquer));
   // collar ring the globe sits on
-  machine.add(lathe([[0, 10.3], [6.15, 10.3], [6.35, 10.6], [6.35, 11.6], [6.0, 11.9], [5.2, 11.9], [5.2, 11.2], [0, 11.2]], chrome));
+  machine.add(lathe([[0, 9.9], [6.3, 9.9], [6.45, 10.25], [6.1, 10.8], [5.4, 11.35], [5.05, 11.9], [4.95, 12.35], [4.4, 12.35], [4.4, 11.6], [0, 11.6]], chrome));
   // lid on top of the globe
-  const NECK = 4.9;                                              // the globe's opening at the top
+  const NECK = 3.9;                                              // the globe's opening at the top
   const lidY = GLOBE.y + Math.sqrt(GLOBE.r ** 2 - NECK ** 2) - 0.15;
   machine.add(lathe([[NECK - 0.1, -0.25], [NECK + 0.45, -0.25], [NECK + 0.45, 0.35], [NECK - 0.1, 0.35]].map(([x, y]) => [x, y + lidY]), chrome));
   machine.add(lathe([[NECK + 0.55, 0.3], [NECK + 0.6, 0.9], [NECK + 0.35, 1.5], [4.4, 2.5], [3.2, 3.3], [1.8, 3.7], [0, 3.8], [0, 0.3]].map(([x, y]) => [x, y + lidY]), lacquer));
@@ -299,7 +300,7 @@ export function createMachine(canvas) {
       const [gone] = inGlobe.splice(lowest, 1);
       world.removeBody(gone.body);
       const from = gone.mesh.position.clone();
-      await tween(reduceMotion ? 1 : 260, (p) => { gone.mesh.position.lerpVectors(from, new THREE.Vector3(0, 9.5, 0), p); gone.mesh.scale.setScalar(1 - p * 0.3); });
+      await tween(reduceMotion ? 1 : 260, (p) => { gone.mesh.position.lerpVectors(from, new THREE.Vector3(0, SEAT.y - 1.5, 0), p); gone.mesh.scale.setScalar(1 - p * 0.3); });
       machine.remove(gone.mesh);
     } else if (!reduceMotion) {
       await new Promise((r) => setTimeout(r, 200));
@@ -347,12 +348,12 @@ export function createMachine(canvas) {
     renderer.setSize(cw, ch, false);
     camera.aspect = cw / ch;
     // keep the whole machine in view on narrow screens
-    const fitH = 38, fitW = 22;
+    const fitH = 42, fitW = 23;
     const vFov = THREE.MathUtils.degToRad(camera.fov);
     const distH = fitH / 2 / Math.tan(vFov / 2), distW = fitW / 2 / Math.tan(vFov / 2) / camera.aspect;
     const dist = Math.max(distH, distW);
-    camera.position.set(0, 12 + dist * 0.2, dist);
-    camera.lookAt(0, 11.4, 0);
+    camera.position.set(0, 15.7 + dist * 0.2, dist);
+    camera.lookAt(0, 15.6, 0);
     camera.updateProjectionMatrix();
     wake(0.1);
   }
